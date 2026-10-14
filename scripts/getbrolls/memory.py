@@ -2,7 +2,7 @@
 
 import json
 
-from .models import now, signature
+from .models import now, replace_file, signature
 
 
 def remember(ledger, c, decision, reason, by):
@@ -30,6 +30,6 @@ def remember(ledger, c, decision, reason, by):
     data["items"].append(entry)
     temp = path.with_suffix(".tmp")
     temp.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
-    temp.replace(path)
+    replace_file(temp, path)
     ledger.save("remember", c)
     return entry

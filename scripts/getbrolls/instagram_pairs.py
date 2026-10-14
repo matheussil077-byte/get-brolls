@@ -13,6 +13,7 @@ CDN já está recusando.
 from __future__ import annotations
 
 import argparse
+import contextlib
 import hashlib
 import ipaddress
 import json
@@ -36,7 +37,12 @@ if __package__:
     from . import logs
     from .runtime import redact, stderr_tail
 else:  # Executado diretamente como `python3 scripts/getbrolls/instagram_pairs.py`, per docs/GUIDE.md.
-    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+    # A pasta do próprio script entra em sys.path[0] e os módulos dela têm nome de
+    # biblioteca padrão (`queue`, `http`): `logging.handlers` importava o `queue.py`
+    # do pacote e o coletor quebrava antes do `--help`. Fica só a pasta `scripts/`.
+    _here = Path(__file__).resolve().parent
+    sys.path[:] = [entry for entry in sys.path if not entry or Path(entry).resolve() != _here]
+    sys.path.insert(0, str(_here.parent))
     from getbrolls import logs
     from getbrolls.runtime import redact, stderr_tail
 
@@ -53,6 +59,19 @@ HOST_RE = re.compile(
     r"[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?$"
 )
 STEM_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.-]{0,119}$")
+# Nomes de dispositivo do Windows: `CON.mp4` ou `nul_video.conf` não podem ser criados lá.
+WINDOWS_RESERVED_STEMS = frozenset(
+    ["CON", "PRN", "AUX", "NUL"] + [f"COM{n}" for n in range(1, 10)] + [f"LPT{n}" for n in range(1, 10)]
+)
+
+
+def unsafe_stem(stem: str) -> bool:
+    """Stem que não vira nome de arquivo seguro: fora do alfabeto, com `..` ou, no Windows, reservado."""
+    if not STEM_RE.fullmatch(stem) or ".." in stem:
+        return True
+    return os.name == "nt" and stem.split(".", 1)[0].upper() in WINDOWS_RESERVED_STEMS
+
+
 PACE_RE = re.compile(r"^(\d+)(?:-(\d+))?$")
 # curl exit 22 com um destes códigos HTTP no stderr significa que a CDN está nos recusando.
 BLOCKED_RE = re.compile(r"(?:error|returned error|HTTP/[\d.]+)\s*:?\s*(403|429)\b", re.IGNORECASE)
@@ -219,7 +238,7 @@ def resolve_config_output(config_output: str | None, root: Path) -> Path | None:
 
 
 def infer_output_for_stem(stem: str, output_dir: Path, layout: str) -> Path:
-    if not STEM_RE.fullmatch(stem) or ".." in stem:
+    if unsafe_stem(stem):
         die(f"stem de config inseguro: {stem}")
     if layout == "flat":
         return output_dir / f"{stem}.mp4"
@@ -525,7 +544,7 @@ def process_one(  # noqa: PLR0913 - existing size; one field per stem/config/out
     copy_streams: bool,
     compute_audio_hash: bool = True,
 ) -> dict:
-    if not STEM_RE.fullmatch(stem) or ".." in stem:
+    if unsafe_stem(stem):
         die(f"stem de config inseguro: {stem}")
     if output.exists():
         die(f"a saída já existe; nada foi sobrescrito: {output}")
@@ -898,5 +917,14 @@ def main(argv: list[str] | None = None) -> int:
         logs.shutdown()
 
 
+def _utf8_output() -> None:
+    """Títulos e caminhos saem em UTF-8 mesmo num console Windows com página de código legada."""
+    for stream in (sys.stdout, sys.stderr):
+        # TextIO não declara `reconfigure`; quem não tiver cai no except.
+        with contextlib.suppress(AttributeError, OSError):
+            stream.reconfigure(encoding="utf-8")  # pyright: ignore[reportAttributeAccessIssue]
+
+
 if __name__ == "__main__":
+    _utf8_output()
     raise SystemExit(main())

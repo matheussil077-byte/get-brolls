@@ -5,7 +5,7 @@ description: Monta o Storyboard local, entrega a URL para a pessoa decidir e imp
 
 # Mandar as prévias para revisão
 
-Use quando os candidatos já têm prévia e alguém precisa aprovar. Vale principalmente quando quem revisa **não é** a pessoa que está no chat.
+Use quando os candidatos já têm prévia e alguém precisa aprovar. Vale principalmente quando quem revisa **não é** a pessoa que está no chat. No Windows, use `python` no lugar de `python3` em todos os comandos abaixo.
 
 1. Gere o Storyboard com as prévias já existentes:
 

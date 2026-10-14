@@ -74,7 +74,17 @@ powershell -ExecutionPolicy Bypass -File scripts/install.ps1
 python scripts/gb.py doctor
 ```
 
-O instalador usa `.venv\Scripts\python.exe` e o launcher `.cmd` do Playwright; não exige Git Bash nem WSL. Se a política local já permite scripts, também é possível executar `& .\scripts\install.ps1`. Os helpers `.sh` de YouTube são opcionais; no Windows, use `search`, `preview`, `fetch` e `verify` pela CLI principal.
+O instalador usa `.venv\Scripts\python.exe` e roda o Playwright CLI fixado com `node.exe` direto (sem o atalho `.cmd`, que pelo `cmd.exe` cortava URLs com `&`); não exige Git Bash nem WSL. Se a política local já permite scripts, também é possível executar `& .\scripts\install.ps1`.
+
+Notas do Windows:
+
+- **`python3` não é Python.** Na maioria das máquinas, `python3` resolve para o atalho da Microsoft Store em `WindowsApps`, que só imprime um aviso. Use `python`; o `install.ps1` testa cada candidato de verdade e, sem `python` no `PATH`, cai no launcher `py` (3.13 → 3.11). Os comandos prontos que a CLI devolve (`do.command`, `brief --beat`) já saem com `python` no Windows.
+- **`install.sh` no Git Bash recusa rodar** e mostra o comando `install.ps1` equivalente.
+- **Política de execução.** Os exemplos `& .\scripts\playwright.ps1 …` deste guia exigem que a política permita scripts locais. Se o PowerShell recusar, troque `&` por `powershell -ExecutionPolicy Bypass -File` (vale só para aquele comando).
+- **`PATH` novo pede sessão nova.** Programa instalado pelo winget (FFmpeg, Node) só aparece numa sessão nova do terminal ou do Claude Code; até lá, fixe o caminho com `GB_FFMPEG_PATH`/`GB_FFPROBE_PATH`.
+- **`.env` com BOM.** O Bloco de Notas e o PowerShell 5.1 gravam UTF-8 com BOM; a CLI aceita esse `.env` e o JSON de decisões regravado assim.
+
+Os helpers `.sh` de YouTube são opcionais; no Windows, use `search`, `preview`, `fetch` e `verify` pela CLI principal.
 
 Linux continua compatível como plataforma secundária. Em Ubuntu/Debian, instale `python3`, `python3-venv`, `ffmpeg` e `curl`, além de Node 22+, e use `scripts/install.sh` como no macOS.
 

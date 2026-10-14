@@ -5,7 +5,7 @@ description: Entrevista o usuário em até 7 perguntas, escreve o BRIEF.md do v�
 
 # Fazer o brief do vídeo
 
-Use quando alguém pedir b-roll e o projeto ainda não tiver `BRIEF.md`. Leia `${CLAUDE_PLUGIN_ROOT}/references/interview.md` antes de perguntar qualquer coisa: as sete perguntas, a ordem, os critérios de parada e os defaults estão lá, e não são para improvisar.
+Use quando alguém pedir b-roll e o projeto ainda não tiver `BRIEF.md`. No Windows, use `python` no lugar de `python3` em todos os comandos abaixo. Leia `${CLAUDE_PLUGIN_ROOT}/references/interview.md` antes de perguntar qualquer coisa: as sete perguntas, a ordem, os critérios de parada e os defaults estão lá, e não são para improvisar.
 
 1. Descubra a pasta do projeto com o usuário (a que guarda ou vai guardar `brolls/`). Se não houver `RULES.md`, crie com `python3 "${CLAUDE_PLUGIN_ROOT}/scripts/gb.py" init-rules --project <projeto>`.
 

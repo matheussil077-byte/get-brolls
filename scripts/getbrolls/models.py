@@ -1,7 +1,31 @@
 import hashlib
 import json
 import math
+import os
+import time
 from datetime import UTC, datetime
+from pathlib import Path
+
+# WinError 5 (acesso negado) e 32 (arquivo em uso): no Windows, trocar um arquivo que
+# outro processo mantém aberto — o `serve` lendo a página, o antivírus, o OneDrive, o
+# indexador — falha por um instante em vez de esperar, como o POSIX faz.
+_WINDOWS_SHARING_ERRORS = (5, 32)
+REPLACE_ATTEMPTS = 10
+
+
+def replace_file(source, target, sleep=time.sleep):
+    """`Path(source).replace(target)` com novas tentativas curtas só no Windows."""
+    source = Path(source)
+    if os.name != "nt":
+        return source.replace(target)
+    for attempt in range(1, REPLACE_ATTEMPTS + 1):
+        try:
+            return source.replace(target)
+        except PermissionError as error:
+            if getattr(error, "winerror", None) not in _WINDOWS_SHARING_ERRORS or attempt == REPLACE_ATTEMPTS:
+                raise
+            sleep(0.05 * attempt)
+    return None
 
 
 def now():

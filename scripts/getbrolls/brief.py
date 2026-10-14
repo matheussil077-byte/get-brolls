@@ -11,6 +11,8 @@ import re
 import shlex
 from pathlib import Path
 
+from .config import python_command
+
 ROOT = Path(__file__).resolve().parents[2]
 CLI = ROOT / "scripts" / "gb.py"
 
@@ -430,7 +432,7 @@ def provider_warnings(beats):
 
 
 def _cli_prefix():
-    return f'python3 "{CLI}"'
+    return f'{python_command()} "{CLI}"'
 
 
 def beat_commands(project, beat):

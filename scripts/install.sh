@@ -3,6 +3,15 @@
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 case "${1:-}" in ''|--check) ;; *) printf 'Uso: bash scripts/install.sh [--check]\n'; exit 2;; esac
+# Git Bash/MSYS no Windows: `python3` costuma ser o atalho da Microsoft Store e a venv
+# do Windows não tem `.venv/bin/python`. O instalador nativo é o install.ps1.
+case "$(uname -s 2>/dev/null || true)" in
+  MINGW*|MSYS*|CYGWIN*)
+    check_flag=''; [ "${1:-}" = "--check" ] && check_flag=' -Check'
+    win_ps1="$(cygpath -w "$ROOT/scripts/install.ps1" 2>/dev/null || printf '%s' "$ROOT/scripts/install.ps1")"
+    printf 'Windows detectado: este instalador é para macOS/Linux. Use:\n  powershell -ExecutionPolicy Bypass -File "%s"%s\n' "$win_ps1" "$check_flag" >&2
+    exit 2;;
+esac
 missing=0
 for tool in python3 ffmpeg ffprobe curl bash awk node npm npx; do
   if ! command -v "$tool" >/dev/null 2>&1; then

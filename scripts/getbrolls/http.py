@@ -18,6 +18,7 @@ from pathlib import Path
 
 from . import __version__, logs
 from .config import cache_root
+from .models import replace_file
 from .runtime import record_warning, redact, stderr_tail
 
 _logger = logs.get("http")
@@ -394,7 +395,7 @@ def get_json(url, params=None, headers=None, cache_ttl=0):  # noqa: C901, PLR091
             temp = cache_path.with_suffix(".tmp")
             temp.write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
             temp.chmod(0o600)
-            temp.replace(cache_path)
+            replace_file(temp, cache_path)
         except OSError:
             # Not mirrored via record_warning (that channel is for the read-side
             # CACHE_UNAVAILABLE case above); logged directly so a full-disk

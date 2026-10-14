@@ -31,7 +31,7 @@ Sem `BRIEF.md` na pasta do projeto, conduza a entrevista de `/vedana-brolls-brie
 
 ## Passo 2 — Confirme o brief
 
-Rode o CLI pelo **caminho absoluto da instalação da skill**: os exemplos escrevem `${CLAUDE_PLUGIN_ROOT}/scripts/gb.py` por brevidade. `--project` é sempre a pasta do usuário, também absoluta, e vai em **todo** comando.
+Rode o CLI pelo **caminho absoluto da instalação da skill**: os exemplos escrevem `${CLAUDE_PLUGIN_ROOT}/scripts/gb.py` por brevidade. `--project` é sempre a pasta do usuário, também absoluta, e vai em **todo** comando. No Windows, use `python` no lugar de `python3` em todos os exemplos.
 
 Escreva o `BRIEF.md` com `python3 "${CLAUDE_PLUGIN_ROOT}/scripts/gb.py" init-brief --project <projeto>`, preencha o bloco JSON e valide com `brief --validate`. Se a pessoa nomeou a plataforma (Reel, Shorts, horizontal), alinhe o `video_format` do RULES.md antes de validar: `init-rules --format reels --force --project <projeto>`.
 
@@ -77,7 +77,7 @@ Diga o que tentou e o motivo real. Pergunte se a pessoa tem material próprio ou
 
 ## Ambiente
 
-`python3 "${CLAUDE_PLUGIN_ROOT}/scripts/gb.py" doctor` diz o que está pronto e o que falta. No Windows, use `python` no lugar de `python3`. Faltando algo, peça `/vedana-brolls-setup`. Versão diferente da deste arquivo: leia o [CHANGELOG](${CLAUDE_PLUGIN_ROOT}/CHANGELOG.md).
+`python3 "${CLAUDE_PLUGIN_ROOT}/scripts/gb.py" doctor` diz o que está pronto e o que falta. Faltando algo, peça `/vedana-brolls-setup`. Versão diferente da deste arquivo: leia o [CHANGELOG](${CLAUDE_PLUGIN_ROOT}/CHANGELOG.md).
 
 ## Índice de references
 

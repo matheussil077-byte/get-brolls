@@ -11,7 +11,7 @@ import time
 from pathlib import Path
 
 from . import __version__, logs
-from .config import CAP_EPSILON
+from .config import CAP_EPSILON, installer_command
 from .guidance import blocked_beats_question, next_action
 from .ledger import Ledger, digest
 from .media import cut, probe, run
@@ -27,7 +27,7 @@ _log = logs.get("commands")
 
 # Raiz real da skill/plugin: o comando sugerido não pode depender da pasta atual.
 SKILL_ROOT = Path(__file__).resolve().parents[2]
-INSTALLER = f'bash "{SKILL_ROOT / "scripts" / "install.sh"}" (ou "{SKILL_ROOT / "scripts" / "install.ps1"}" no Windows)'
+INSTALLER = installer_command(SKILL_ROOT)
 SYSTEM_TOOLS = "instale pelo gerenciador do sistema; veja docs/GUIDE.md#instalação"
 
 # Executável obrigatório → (comando que resolve, impacto real da ausência).

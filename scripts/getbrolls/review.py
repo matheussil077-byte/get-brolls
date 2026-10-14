@@ -139,7 +139,8 @@ def import_review(ledger, file, by, rules=None):  # noqa: C901, PLR0912, PLR0915
             "Esse arquivo de escolhas passa de 2 MB — não parece ser o que a página "
             "salvou. Confira se apontou para o getbrolls-review.json certo."
         )
-    data = json.loads(path.read_text(encoding="utf-8"))
+    # utf-8-sig: um editor do Windows que regrave o arquivo põe BOM, que o json recusa.
+    data = json.loads(path.read_text(encoding="utf-8-sig"))
     # `type(...) is not int` keeps `True` (`== 1`) and a float like `2.0` (`== 2`)
     # from passing as the real int, mirroring `ledger.validate_manifest`'s strictness.
     if (

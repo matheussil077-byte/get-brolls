@@ -16,7 +16,7 @@ import unicodedata
 import uuid
 
 from . import logs
-from .models import now
+from .models import now, replace_file
 from .rules import home_dir
 
 _log = logs.get(__name__.rsplit(".", 1)[-1])
@@ -95,7 +95,7 @@ def _write_private(path, text):
             f.flush()
             os.fsync(f.fileno())
         temp.chmod(0o600)
-        temp.replace(path)
+        replace_file(temp, path)
     finally:
         temp.unlink(missing_ok=True)
 

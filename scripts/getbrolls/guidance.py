@@ -9,6 +9,8 @@ dita, evidência real), o comando traz o lugar em MAIÚSCULAS para ele preencher
 import shlex
 from pathlib import Path
 
+from .config import python_command
+
 ROOT = Path(__file__).resolve().parents[2]
 CLI = ROOT / "scripts" / "gb.py"
 
@@ -63,7 +65,7 @@ def command_for(step, project, candidate=None):
     template = TEMPLATES.get(step)
     if template is None:
         return None
-    return f'python3 "{CLI}" ' + template.format(
+    return f'{python_command()} "{CLI}" ' + template.format(
         project=shlex.quote(str(project)),
         candidate=shlex.quote(candidate) if candidate else "ID",
     )

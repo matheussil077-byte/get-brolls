@@ -15,6 +15,7 @@ from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 from . import logs
+from .models import replace_file
 
 log = logs.get("queue")
 
@@ -165,7 +166,7 @@ def save(path, data):
             stream.flush()
             os.fsync(stream.fileno())
         Path(temp).chmod(0o600)
-        Path(temp).replace(path)
+        replace_file(temp, path)
     finally:
         Path(temp).unlink(missing_ok=True)
 
