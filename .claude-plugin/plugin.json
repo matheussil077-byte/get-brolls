@@ -1,13 +1,12 @@
 {
-  "name": "get-brolls",
+  "name": "vedana-brolls",
   "version": "2.5.0",
-  "description": "B-roll planning and sourcing from YouTube, Instagram, TikTok and stock providers, with Storyboard human review and licensed delivery with provenance.",
+  "description": "Vedana B-Rolls: B-roll planning and sourcing from YouTube, Instagram, TikTok and stock providers, with Storyboard human review and licensed delivery with provenance.",
   "author": {
-    "name": "Bruno Moreira — Engenheiro de Vídeo",
-    "url": "https://www.instagram.com/zbrunomoreira/"
+    "name": "Vedana"
   },
-  "homepage": "https://github.com/engenheirodevideo/get-brolls",
-  "repository": "https://github.com/engenheirodevideo/get-brolls",
+  "homepage": "https://github.com/matheussil077-byte/get-brolls",
+  "repository": "https://github.com/matheussil077-byte/get-brolls",
   "license": "MIT",
   "keywords": [
     "b-roll",

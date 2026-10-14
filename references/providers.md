@@ -3,7 +3,7 @@ type: reference
 status: current
 created: 2026-09-17
 updated: 2026-09-17
-tags: [get-brolls, fontes, provedores]
+tags: [vedana-brolls, fontes, provedores]
 ---
 
 # Fontes — qual tentar, nessa ordem

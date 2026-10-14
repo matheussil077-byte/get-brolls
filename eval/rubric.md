@@ -3,7 +3,7 @@ type: documentation
 status: current
 created: 2026-09-16
 updated: 2026-09-16
-tags: [get-brolls, eval, blind-tests, rubric]
+tags: [vedana-brolls, eval, blind-tests, rubric]
 ---
 
 # Rubrica dos testes cegos

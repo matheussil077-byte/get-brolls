@@ -228,7 +228,7 @@ def get_json(url, params=None, headers=None, cache_ttl=0):  # noqa: C901, PLR091
             )
     cache_mode = "miss" if cache_ttl else "off"
     request_headers = {
-        "User-Agent": f"Get-Brolls/{__version__} (video research; contact: local operator)",
+        "User-Agent": f"Vedana-BRolls/{__version__} (video research; contact: local operator)",
         "Accept": "application/json",
     }
     request_headers.update(headers or {})
@@ -439,7 +439,7 @@ def download(url, target, max_bytes=512 * 1024 * 1024):  # noqa: C901, PLR0912, 
     received_bytes = 0
     try:
         request = urllib.request.Request(  # noqa: S310 - opener guards via `_safe_network` in `https_open`
-            url, headers={"User-Agent": f"Get-Brolls/{__version__}"}
+            url, headers={"User-Agent": f"Vedana-BRolls/{__version__}"}
         )
         with _opener().open(request, timeout=30) as response:
             status_code = getattr(response, "status", None)

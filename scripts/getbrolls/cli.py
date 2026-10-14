@@ -70,14 +70,14 @@ FORMAT_GATE_SUBCOMMANDS = (
 
 def build_parser():  # noqa: C901, PLR0912, PLR0915 - existing size; argparse builder with one branch per subcommand/flag
     parser = argparse.ArgumentParser(
-        description="Get B-rolls — pesquisar, revisar e coletar trechos por fonte.",
+        description="Vedana B-Rolls — pesquisar, revisar e coletar trechos por fonte.",
         epilog="Use `<subcomando> --help` para os argumentos de cada etapa.",
     )
     parser.add_argument("--env-file", help="Arquivo .env explícito; padrão: .env na raiz da skill")
     parser.add_argument(
         "--version",
         action="version",
-        version=f"get-brolls {__version__}",
+        version=f"vedana-brolls {__version__}",
         help="Mostrar a versão instalada da skill e sair",
     )
     sub = parser.add_subparsers(dest="command", required=True)

@@ -3,12 +3,12 @@ type: documentation
 status: current
 created: 2026-09-15
 updated: 2026-09-15
-tags: [get-brolls]
+tags: [vedana-brolls]
 ---
 
 # Avisos de terceiros
 
-O processo editorial, os utilitários Bash e o coletor Instagram fazem parte do **GET B-ROLLS — ENGENHEIRO DE VÍDEO**. O código da skill usa MIT conforme `LICENSE`; dependências externas mantêm suas próprias licenças.
+O processo editorial, os utilitários Bash e o coletor Instagram fazem parte do **VEDANA B-ROLLS**, derivado do projeto Get B-rolls de Bruno Moreira. O código da skill usa MIT conforme `LICENSE`, que preserva o aviso de copyright original; dependências externas mantêm suas próprias licenças.
 
 A distribuição contém instruções, comandos, scripts customizados e interface própria. Não inclui bibliotecas, executáveis ou fontes tipográficas de terceiros; o HTML usa as fontes do sistema.
 

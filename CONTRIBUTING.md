@@ -3,7 +3,7 @@ type: documentation
 status: current
 created: 2026-09-15
 updated: 2026-09-17
-tags: [get-brolls, documentation]
+tags: [vedana-brolls, documentation]
 ---
 
 # Contribuição
@@ -32,7 +32,7 @@ python3 -m pip install -r requirements-dev.txt
 bash scripts/check.sh
 ```
 
-No Windows, `./scripts/check.ps1` roda a mesma bateria. Os dois executam, em ordem, `ruff check`, `ruff format --check`, `pyright`, `python3 scripts/gen_skill_mirror.py --check` (o espelho da skill em `skills/get-brolls/SKILL.md` é gerado a partir do `SKILL.md` da raiz — nunca edite o espelho à mão), `python3 scripts/check_anchors.py` e a suíte de testes — o mesmo que o CI cobre: o job `quality` roda `ruff` e `pyright` no Ubuntu, e a matriz `Tests` roda a suíte (que inclui a conferência de âncoras) e o `--check` do espelho nos três sistemas.
+No Windows, `./scripts/check.ps1` roda a mesma bateria. Os dois executam, em ordem, `ruff check`, `ruff format --check`, `pyright`, `python3 scripts/gen_skill_mirror.py --check` (o espelho da skill em `skills/vedana-brolls/SKILL.md` é gerado a partir do `SKILL.md` da raiz — nunca edite o espelho à mão), `python3 scripts/check_anchors.py` e a suíte de testes — o mesmo que o CI cobre: o job `quality` roda `ruff` e `pyright` no Ubuntu, e a matriz `Tests` roda a suíte (que inclui a conferência de âncoras) e o `--check` do espelho nos três sistemas.
 
 ## Dependências e releases
 

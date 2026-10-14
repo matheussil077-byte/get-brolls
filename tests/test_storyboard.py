@@ -1,9 +1,12 @@
 import base64
+import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 from _paths import ROOT
 
+from getbrolls import storyboard
 from getbrolls.storyboard import render_page
 
 
@@ -31,11 +34,20 @@ class StoryboardTest(unittest.TestCase):
         self.assertIn('id="shot-0"', page)
         self.assertIn("Fala &amp; contexto", page)
 
-    def test_rendered_storyboard_uses_current_logo(self):
-        logo = ROOT / "assets" / "brand-logo.png"
-        self.assertTrue(logo.is_file())
-        encoded = base64.b64encode(logo.read_bytes()).decode("ascii")
-        page = render_page([])
+    def test_rendered_storyboard_uses_text_brand_without_logo(self):
+        with mock.patch.object(storyboard, "BRAND_LOGO", ROOT / "assets" / "ausente.png"):
+            page = render_page([])
+        self.assertNotIn('class="brand-logo"', page)
+        self.assertIn('<span class="wordmark">Vedana<span>B-Rolls<b>.</b></span></span>', page)
+        self.assertIn("<title>VEDANA B-ROLLS — ", page)
+
+    def test_rendered_storyboard_embeds_brand_logo_when_present(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            logo = Path(tmp) / "brand-logo.png"
+            logo.write_bytes(b"PNG-fake-logo")
+            encoded = base64.b64encode(logo.read_bytes()).decode("ascii")
+            with mock.patch.object(storyboard, "BRAND_LOGO", logo):
+                page = render_page([])
         self.assertIn('class="brand-logo"', page)
         self.assertIn(f'src="data:image/png;base64,{encoded}"', page)
         self.assertNotIn('<div class="brand"><svg', page)
@@ -135,7 +147,7 @@ class StoryboardV2Test(unittest.TestCase):
     def test_header_gallery_and_panels_follow_v2(self):
         page = self.render_two()
         self.assertIn('<header class="artifact-header">', page)
-        self.assertIn('<span class="wordmark">engenheiro<span>de vídeo<b>.</b></span></span>', page)
+        self.assertIn('<span class="wordmark">Vedana<span>B-Rolls<b>.</b></span></span>', page)
         self.assertIn("<span>2 quadros</span>", page)
         self.assertIn('<div class="gallery-head"><h2>Storyboard</h2>', page)
         self.assertIn('data-storyboard-mode="hover"', page)

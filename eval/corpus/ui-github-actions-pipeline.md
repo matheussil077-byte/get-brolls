@@ -4,7 +4,7 @@ id: ui-github-actions-pipeline
 status: current
 created: 2026-09-16
 updated: 2026-09-16
-tags: [get-brolls, eval, blind-tests, software, print-ui]
+tags: [vedana-brolls, eval, blind-tests, software, print-ui]
 ---
 
 # O pipeline verde no GitHub Actions

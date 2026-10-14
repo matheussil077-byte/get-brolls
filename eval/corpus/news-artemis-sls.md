@@ -4,7 +4,7 @@ id: news-artemis-sls
 status: current
 created: 2026-09-16
 updated: 2026-09-16
-tags: [get-brolls, eval, blind-tests, noticia]
+tags: [vedana-brolls, eval, blind-tests, noticia]
 ---
 
 # Programa Artemis e o foguete SLS

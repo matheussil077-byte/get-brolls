@@ -3,7 +3,7 @@ type: reference
 status: current
 created: 2026-09-17
 updated: 2026-09-17
-tags: [get-brolls, copy, glossario]
+tags: [vedana-brolls, copy, glossario]
 ---
 
 # Glossário — como falar com quem nunca abriu um terminal

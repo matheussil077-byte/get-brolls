@@ -51,7 +51,7 @@ jobs:
             *-*) PRERELEASE=(--prerelease) ;;
           esac
           gh release create "$TAG" \
-            --title "GET B-ROLLS $VERSION" \
+            --title "VEDANA B-ROLLS $VERSION" \
             --notes-file release-notes.md \
             --verify-tag \
             "${PRERELEASE[@]}"
