@@ -81,21 +81,19 @@ class InstallShGuardTests(unittest.TestCase):
     """`install.sh` no Git Bash para antes de achar o `python3` da Store e apontar `.venv/bin`."""
 
     def _run_with_uname(self, system):
-        with tempfile.TemporaryDirectory() as tmp:
-            fake = Path(tmp) / "uname"
-            fake.write_text(f"#!/bin/sh\nprintf '%s\\n' '{system}'\n", encoding="utf-8", newline="\n")
-            fake.chmod(0o755)
-            env = dict(os.environ, PATH=tmp + os.pathsep + os.environ.get("PATH", ""))
-            return subprocess.run(
-                [BASH, str(ROOT / "scripts" / "install.sh"), "--check"],
-                env=env,
-                capture_output=True,
-                text=True,
-                encoding="utf-8",
-                errors="replace",
-                check=False,
-                timeout=60,
-            )
+        # O bin\bash.exe do Git põe o próprio /usr/bin à frente do PATH, então um `uname`
+        # falso no PATH perde; uma função exportada tem precedência em qualquer bash.
+        script = 'uname() { printf "%s\\n" "$GB_FAKE_UNAME"; }; export -f uname; exec bash "$0" --check'
+        return subprocess.run(
+            [BASH, "-c", script, (ROOT / "scripts" / "install.sh").as_posix()],
+            env=dict(os.environ, GB_FAKE_UNAME=system),
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            check=False,
+            timeout=60,
+        )
 
     def test_git_bash_is_redirected_to_install_ps1(self):
         done = self._run_with_uname("MINGW64_NT-10.0-26200")
