@@ -11,6 +11,8 @@ import re
 import shlex
 from pathlib import Path
 
+from .config import python_command
+
 ROOT = Path(__file__).resolve().parents[2]
 CLI = ROOT / "scripts" / "gb.py"
 
@@ -144,7 +146,7 @@ def load_brief(project):
                 "ou apague essa variável para usar o BRIEF.md da pasta do trabalho."
             )
         raise ValueError(
-            "Este projeto ainda não tem BRIEF.md. Rode `/get-brolls-brief` para fazer a "
+            "Este projeto ainda não tem BRIEF.md. Rode `/vedana-brolls-brief` para fazer a "
             "entrevista, ou `init-brief --project ...` para criar o modelo e preencher."
         )
     return read_json_block(
@@ -430,7 +432,7 @@ def provider_warnings(beats):
 
 
 def _cli_prefix():
-    return f'python3 "{CLI}"'
+    return f'{python_command()} "{CLI}"'
 
 
 def beat_commands(project, beat):

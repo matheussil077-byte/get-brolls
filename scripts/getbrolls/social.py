@@ -13,7 +13,7 @@ import time
 from pathlib import Path
 
 from . import logs
-from .config import executable_override, venv_override
+from .config import executable_override, installer_command, python_command, venv_override
 from .http import ProviderError
 from .runtime import record_warning, redact, stderr_tail
 
@@ -86,8 +86,8 @@ def command():
     exe = str(local) if local else shutil.which("yt-dlp")
     if not exe:
         raise ProviderError(
-            "yt-dlp ausente: execute bash scripts/install.sh (ou install.ps1) na raiz da skill/plugin; "
-            "após /plugin update é preciso reinstalar. Confira com python3 scripts/gb.py doctor."
+            f"yt-dlp ausente: execute {installer_command()} na raiz da skill/plugin; "
+            f"após /plugin update é preciso reinstalar. Confira com {python_command()} scripts/gb.py doctor."
         )
     _log_tool_path("env" if pinned else "venv" if local else "path")
     requests, low, high = sleep_settings()
@@ -219,9 +219,7 @@ def run(arguments, timeout=180, *, op=None):
     except FileNotFoundError as exc:
         _log_subprocess(op, started, status="error", exit_code=None)
         name = exc.filename or (cmd[0] if cmd else "yt-dlp")
-        raise ProviderError(
-            f"{name} não encontrado: execute bash scripts/install.sh (ou install.ps1) na raiz da skill/plugin."
-        ) from exc
+        raise ProviderError(f"{name} não encontrado: execute {installer_command()} na raiz da skill/plugin.") from exc
     except PermissionError as exc:
         _log_subprocess(op, started, status="error", exit_code=None)
         name = exc.filename or (cmd[0] if cmd else "yt-dlp")

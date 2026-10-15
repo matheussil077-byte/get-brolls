@@ -18,6 +18,7 @@ from pathlib import Path
 
 from . import __version__, logs
 from .config import cache_root
+from .models import replace_file
 from .runtime import record_warning, redact, stderr_tail
 
 _logger = logs.get("http")
@@ -228,7 +229,7 @@ def get_json(url, params=None, headers=None, cache_ttl=0):  # noqa: C901, PLR091
             )
     cache_mode = "miss" if cache_ttl else "off"
     request_headers = {
-        "User-Agent": f"Get-Brolls/{__version__} (video research; contact: local operator)",
+        "User-Agent": f"Vedana-BRolls/{__version__} (video research; contact: local operator)",
         "Accept": "application/json",
     }
     request_headers.update(headers or {})
@@ -394,7 +395,7 @@ def get_json(url, params=None, headers=None, cache_ttl=0):  # noqa: C901, PLR091
             temp = cache_path.with_suffix(".tmp")
             temp.write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
             temp.chmod(0o600)
-            temp.replace(cache_path)
+            replace_file(temp, cache_path)
         except OSError:
             # Not mirrored via record_warning (that channel is for the read-side
             # CACHE_UNAVAILABLE case above); logged directly so a full-disk
@@ -439,7 +440,7 @@ def download(url, target, max_bytes=512 * 1024 * 1024):  # noqa: C901, PLR0912, 
     received_bytes = 0
     try:
         request = urllib.request.Request(  # noqa: S310 - opener guards via `_safe_network` in `https_open`
-            url, headers={"User-Agent": f"Get-Brolls/{__version__}"}
+            url, headers={"User-Agent": f"Vedana-BRolls/{__version__}"}
         )
         with _opener().open(request, timeout=30) as response:
             status_code = getattr(response, "status", None)

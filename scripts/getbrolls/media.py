@@ -11,7 +11,8 @@ import time
 from pathlib import Path
 
 from . import logs
-from .config import CAP_EPSILON, cache_root, tool_path
+from .config import CAP_EPSILON, cache_root, python_command, tool_path
+from .models import replace_file
 from .runtime import record_warning, stderr_tail
 
 _logger = logs.get("media")
@@ -51,7 +52,7 @@ def run(args, *, op=None):
         # Executável ausente é outro problema que arquivo ou intervalo inválido.
         raise ValueError(
             f"{name} não encontrado: instale FFmpeg/ffprobe ou aponte GB_FFMPEG_PATH/GB_FFPROBE_PATH; "
-            "verifique python3 scripts/gb.py doctor."
+            f"verifique {python_command()} scripts/gb.py doctor."
         ) from e
     except subprocess.TimeoutExpired as e:
         logs.event(
@@ -78,7 +79,7 @@ def run(args, *, op=None):
         )
         tail = stderr_tail(e.stderr)
         raise ValueError(
-            f"{name} falhou (exit {e.returncode}); verifique python3 scripts/gb.py doctor."
+            f"{name} falhou (exit {e.returncode}); verifique {python_command()} scripts/gb.py doctor."
             + (f" stderr: {tail}" if tail else "")
         ) from e
     except (subprocess.SubprocessError, OSError) as e:
@@ -92,7 +93,9 @@ def run(args, *, op=None):
             status="error",
             exit=None,
         )
-        raise ValueError("Falha de mídia: confirme arquivo e intervalo; verifique python3 scripts/gb.py doctor.") from e
+        raise ValueError(
+            f"Falha de mídia: confirme arquivo e intervalo; verifique {python_command()} scripts/gb.py doctor."
+        ) from e
 
 
 _DRAWTEXT = {}
@@ -167,7 +170,7 @@ def drawtext_available():
         cache_path.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
         temp = cache_path.with_suffix(".tmp")
         temp.write_text(json.dumps({"available": available, "checked_at": time.time()}), encoding="utf-8")
-        temp.replace(cache_path)
+        replace_file(temp, cache_path)
     except OSError:
         pass
     return available
@@ -191,8 +194,13 @@ def find_font():
 
 
 def _filter_path(path):
-    """Escape a path for use inside an ffmpeg filter option (colons, backslashes)."""
-    return str(path).replace("\\", "/").replace(":", "\\:").replace("'", "\\'")
+    r"""Escape a path for use inside a single-quoted ffmpeg filter option (colons, backslashes, quotes).
+
+    Every caller wraps the result in `'...'`. Inside those quotes an apostrophe has to
+    close the quote, pass `\\\'` through both escaping levels (filtergraph, then option)
+    and reopen it: the old `\'` made ffmpeg crash on a font or project path like `O'Brien`.
+    """
+    return str(path).replace("\\", "/").replace(":", "\\:").replace("'", "'\\\\\\''")
 
 
 # Caracteres de controle nunca chegam ao banner: um `\n` no título quebraria a linha
@@ -292,7 +300,7 @@ def cut(src, dst, start, end):
         if abs(info["duration_s"] - (end - start)) > max(0.25, 2 / (info["fps"] or 10)):
             raise ValueError("Duração do corte não corresponde ao intervalo aprovado.")
         run(["ffmpeg", "-v", "error", "-i", str(tmp), "-f", "null", "-"], op="decode_check")
-        tmp.replace(dst)
+        replace_file(tmp, dst)
     finally:
         tmp.unlink(missing_ok=True)
 
@@ -538,4 +546,4 @@ def copy_image(src, dst):
 
         if digest(src) != digest(tmp):
             raise ValueError("Cópia da imagem não confere com o original.")
-        tmp.replace(dst)
+        replace_file(tmp, dst)

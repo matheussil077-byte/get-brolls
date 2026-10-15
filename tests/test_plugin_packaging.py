@@ -11,7 +11,7 @@ from getbrolls import __version__
 PLUGIN_JSON = ROOT / ".claude-plugin" / "plugin.json"
 MARKETPLACE_JSON = ROOT / ".claude-plugin" / "marketplace.json"
 COMMANDS = ROOT / "commands"
-SETUP_COMMAND = COMMANDS / "get-brolls-setup.md"
+SETUP_COMMAND = COMMANDS / "vedana-brolls-setup.md"
 REFERENCES = ROOT / "references"
 
 
@@ -29,16 +29,16 @@ def frontmatter_field(path, field):
 class PluginManifestTests(unittest.TestCase):
     def test_plugin_manifest_valid(self):
         data = json.loads(PLUGIN_JSON.read_text(encoding="utf-8"))
-        self.assertEqual(data["name"], "get-brolls")
+        self.assertEqual(data["name"], "vedana-brolls")
         self.assertEqual(data["version"], __version__)
         for key in ("description", "author", "repository", "license"):
             self.assertIn(key, data)
 
     def test_marketplace_valid(self):
         data = json.loads(MARKETPLACE_JSON.read_text(encoding="utf-8"))
-        self.assertEqual(data["name"], "engenheirodevideo")
+        self.assertEqual(data["name"], "vedana")
         self.assertIn("name", data["owner"])
-        entries = [p for p in data["plugins"] if p["name"] == "get-brolls"]
+        entries = [p for p in data["plugins"] if p["name"] == "vedana-brolls"]
         self.assertEqual(len(entries), 1)
         self.assertEqual(entries[0]["source"], "./")
         self.assertEqual(entries[0].get("version"), __version__)
@@ -46,8 +46,8 @@ class PluginManifestTests(unittest.TestCase):
 
 class SetupCommandTests(unittest.TestCase):
     def test_setup_command_is_discoverable_and_complete(self):
-        self.assertTrue(SETUP_COMMAND.is_file(), "commands/get-brolls-setup.md ausente")
-        self.assertEqual("get-brolls-setup", frontmatter_field(SETUP_COMMAND, "name"))
+        self.assertTrue(SETUP_COMMAND.is_file(), "commands/vedana-brolls-setup.md ausente")
+        self.assertEqual("vedana-brolls-setup", frontmatter_field(SETUP_COMMAND, "name"))
         self.assertTrue(frontmatter_field(SETUP_COMMAND, "description"))
         body = SETUP_COMMAND.read_text(encoding="utf-8")
         for marker in (
@@ -61,11 +61,11 @@ class SetupCommandTests(unittest.TestCase):
     def test_every_command_is_discoverable(self):
         """Todo comando do plugin traz name/description e roda pela raiz do plugin."""
         expected = {
-            "get-brolls-setup",
-            "get-brolls-brief",
-            "get-brolls-eval",
-            "get-brolls-status",
-            "get-brolls-review",
+            "vedana-brolls-setup",
+            "vedana-brolls-brief",
+            "vedana-brolls-eval",
+            "vedana-brolls-status",
+            "vedana-brolls-review",
         }
         found = set()
         for path in sorted(COMMANDS.glob("*.md")):
@@ -76,13 +76,13 @@ class SetupCommandTests(unittest.TestCase):
         self.assertEqual(expected, found, "conjunto de comandos do plugin mudou")
 
     def test_status_command_repasses_the_ready_sentence(self):
-        body = (COMMANDS / "get-brolls-status.md").read_text(encoding="utf-8")
+        body = (COMMANDS / "vedana-brolls-status.md").read_text(encoding="utf-8")
         self.assertIn('"${CLAUDE_PLUGIN_ROOT}/scripts/gb.py" status --project', body)
         self.assertIn("summary.do.for_human", body)
         self.assertIn("sem parafrasear", body)
 
     def test_review_command_serves_then_imports(self):
-        body = (COMMANDS / "get-brolls-review.md").read_text(encoding="utf-8")
+        body = (COMMANDS / "vedana-brolls-review.md").read_text(encoding="utf-8")
         for marker in (
             '"${CLAUDE_PLUGIN_ROOT}/scripts/gb.py" review --project',
             '"${CLAUDE_PLUGIN_ROOT}/scripts/gb.py" serve --background --project',

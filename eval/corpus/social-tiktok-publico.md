@@ -4,7 +4,7 @@ id: social-tiktok-publico
 status: current
 created: 2026-09-17
 updated: 2026-09-17
-tags: [get-brolls, eval, blind-tests, tiktok, rede-social]
+tags: [vedana-brolls, eval, blind-tests, tiktok, rede-social]
 ---
 
 # O TikTok da NASA com astronauta dançando em microgravidade

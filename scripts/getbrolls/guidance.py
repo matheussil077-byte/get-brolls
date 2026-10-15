@@ -9,6 +9,8 @@ dita, evidência real), o comando traz o lugar em MAIÚSCULAS para ele preencher
 import shlex
 from pathlib import Path
 
+from .config import python_command
+
 ROOT = Path(__file__).resolve().parents[2]
 CLI = ROOT / "scripts" / "gb.py"
 
@@ -63,7 +65,7 @@ def command_for(step, project, candidate=None):
     template = TEMPLATES.get(step)
     if template is None:
         return None
-    return f'python3 "{CLI}" ' + template.format(
+    return f'{python_command()} "{CLI}" ' + template.format(
         project=shlex.quote(str(project)),
         candidate=shlex.quote(candidate) if candidate else "ID",
     )
@@ -332,7 +334,7 @@ def next_action(state):  # noqa: C901, PLR0911, PLR0912 - existing size; one bra
             "init-brief",
             "O projeto ainda não tem BRIEF.md, então nada define o que buscar.",
             "Antes de buscar qualquer coisa, precisamos do plano do vídeo: rode "
-            "`/get-brolls-brief` para eu te fazer as perguntas, ou `init-brief` para "
+            "`/vedana-brolls-brief` para eu te fazer as perguntas, ou `init-brief` para "
             "criar o modelo e preencher à mão.",
             state,
         )

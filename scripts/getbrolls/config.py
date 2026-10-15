@@ -69,7 +69,8 @@ def load_env(path):
     path = Path(path)
     if not path.is_file():
         return
-    for number, raw_line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+    # utf-8-sig: o Bloco de Notas e o PowerShell 5.1 gravam BOM, que viraria parte da 1ª chave.
+    for number, raw_line in enumerate(path.read_text(encoding="utf-8-sig").splitlines(), 1):
         line = raw_line.strip()
         if not line or line.startswith("#"):
             continue
@@ -121,6 +122,29 @@ def venv_override():
             f"GB_VENV_PATH: {value} não é um diretório existente. Aponte para a pasta .venv ou remova a variável."
         )
     return path
+
+
+def python_command():
+    """Interpretador citado nos comandos prontos (`do.command`, `brief --beat`, dicas de erro).
+
+    No Windows, `python3` costuma resolver para o atalho da Microsoft Store
+    (`WindowsApps/python3.exe`), que não executa nada; o instalador python.org cria
+    `python`, o nome que o plugin usa lá. macOS/Linux seguem com `python3`.
+    """
+    return "python" if os.name == "nt" else "python3"
+
+
+def installer_command(root=None):
+    """Instalador para as dicas de erro: o do sistema atual primeiro, o outro entre parênteses.
+
+    Sem `root`, os caminhos ficam relativos à raiz da skill/plugin. No Windows o
+    `install.sh` não serve (Git Bash não tem `.venv/bin/python`), então ele vai depois.
+    """
+    sh = f'"{Path(root) / "scripts" / "install.sh"}"' if root else "scripts/install.sh"
+    ps1 = f'"{Path(root) / "scripts" / "install.ps1"}"' if root else "scripts/install.ps1"
+    if os.name == "nt":
+        return f"powershell -ExecutionPolicy Bypass -File {ps1} (ou bash {sh} no macOS/Linux)"
+    return f"bash {sh} (ou {ps1} no Windows)"
 
 
 def tool_path(name):

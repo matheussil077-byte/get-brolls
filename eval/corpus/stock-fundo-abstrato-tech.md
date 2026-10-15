@@ -4,7 +4,7 @@ id: stock-fundo-abstrato-tech
 status: current
 created: 2026-09-16
 updated: 2026-09-16
-tags: [get-brolls, eval, blind-tests, stock-pedido]
+tags: [vedana-brolls, eval, blind-tests, stock-pedido]
 ---
 
 # Fundo abstrato para vinheta — stock pedido, mas só em parte

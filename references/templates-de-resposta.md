@@ -3,7 +3,7 @@ type: reference
 status: current
 created: 2026-09-17
 updated: 2026-09-17
-tags: [get-brolls, copy, templates]
+tags: [vedana-brolls, copy, templates]
 ---
 
 # Templates de resposta

@@ -1,7 +1,6 @@
 <div align="center">
   <p><strong>Português</strong> · <a href="README.en.md">English</a></p>
-  <img src="assets/brand-logo.png" alt="Engenheiro de vídeo" width="104">
-  <h1>GET B-ROLLS</h1>
+  <h1>VEDANA B-ROLLS</h1>
   <p><strong>Da ideia ao trecho certo para a sua edição.</strong></p>
   <p>Encontre imagens de apoio, veja o movimento e revise cada escolha<br>antes de receber os cortes finais com suas fontes.</p>
   <p><a href="#comece-aqui">Comece aqui</a> · <a href="#destaques">Destaques</a> · <a href="#documentação">Documentação</a> · <a href="docs/MANUAL.md">Manual e tutorial</a> · <a href="docs/GUIDE.md#instalação">Guia completo</a></p>
@@ -14,12 +13,12 @@
     <img src="https://img.shields.io/badge/yt--dlp-downloader-red?style=flat-square" alt="yt-dlp">
     <img src="https://img.shields.io/badge/Playwright-browser-2EAD33?style=flat-square" alt="Playwright para fontes que pedem navegador">
     <img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="Licença MIT">
-    <img src="https://img.shields.io/github/actions/workflow/status/engenheirodevideo/get-brolls/test.yml?branch=main&style=flat-square&label=tests" alt="Status dos testes">
+    <img src="https://img.shields.io/github/actions/workflow/status/matheussil077-byte/get-brolls/test.yml?branch=main&style=flat-square&label=tests" alt="Status dos testes">
     <img src="https://img.shields.io/badge/version-2.5.0-blue?style=flat-square" alt="Versão 2.5.0">
   </p>
 </div>
 
-Get B-rolls é uma skill para coletar os vídeos e imagens que apoiam uma fala, ilustram uma ideia ou mostram exatamente a pessoa, o produto e o acontecimento citados no roteiro. Você descreve o que precisa; o agente pesquisa, prepara as prévias e reúne as escolhas em um storyboard para sua revisão.
+Vedana B-Rolls é uma skill para coletar os vídeos e imagens que apoiam uma fala, ilustram uma ideia ou mostram exatamente a pessoa, o produto e o acontecimento citados no roteiro. Você descreve o que precisa; o agente pesquisa, prepara as prévias e reúne as escolhas em um storyboard para sua revisão.
 
 - **Escolha com contexto.** Cada trecho pode reunir fala, motivo da escolha, intervalo, autor e fonte original.
 - **Veja antes de decidir.** GIFs e sequências de quadros ajudam a avaliar ação, enquadramento e textos sobrepostos.
@@ -47,7 +46,7 @@ A prévia pode baixar mídia de trabalho para mostrar o movimento. A entrega fin
 - **2.4.1** Correção do workflow de release (FFmpeg no runner) e registro do ensaio ao vivo do Instagram. Sem mudança de comportamento na CLI.
 - **2.4.0** Entrevista de intake e `BRIEF.md` por projeto (`init-brief`/`brief`), aprovação pelo chat (`approve --all --by NOME --channel chat --statement "..."`), biblioteca de aprendizados entre projetos (`learn`/`library`), análise da fonte antes de coletar (`inspect`, `preview --scan`), pasta `entrega/` por beat (`deliver`), Storyboard que salva as decisões dentro do projeto, próximo passo pronto em `status.summary.do`, `search --shot/--dry-run` e `init-rules --format`.
 - **2.3.8** Fila com ritmo para lotes sociais (`queue`), `instagram_pairs --pace/--max-per-run/--continue-on-error`, pausas do yt-dlp e respeito a `Retry-After`, erros legíveis com stderr redigido, cache por intervalo/NASA/drawtext, e comando `serve` para o Storyboard local.
-- **2.3.7** Comando `status --project` ("onde estamos?"), CLI autoexplicativa com `--version`, comando de plugin `/get-brolls-setup`, quickstart "Primeiro B-roll em 5 minutos", caminhos de ferramentas fixáveis via `GB_*_PATH` e [AGENTS.md](AGENTS.md) como hub do repositório.
+- **2.3.7** Comando `status --project` ("onde estamos?"), CLI autoexplicativa com `--version`, comando de plugin `/vedana-brolls-setup`, quickstart "Primeiro B-roll em 5 minutos", caminhos de ferramentas fixáveis via `GB_*_PATH` e [AGENTS.md](AGENTS.md) como hub do repositório.
 - **2.3.6.** Instalação como plugin do Claude Code — o próprio repositório é o marketplace da skill.
 - **2.3.5.** Primeira release oficial no GitHub, endurecimento de rede (HTTPS/DNS) e dependências fixadas.
 
@@ -94,20 +93,20 @@ Depois do passo 2, `python3 scripts/gb.py doctor` é o gate: `summary.missing` v
 No Claude Code, você também pode instalar a skill como plugin, sem clonar manualmente:
 
 ```text
-/plugin marketplace add engenheirodevideo/get-brolls
-/plugin install get-brolls@engenheirodevideo
+/plugin marketplace add matheussil077-byte/get-brolls
+/plugin install vedana-brolls@vedana
 ```
 #### Instalação como plugin do Codex e Outros
 
 ```sh
-git clone https://github.com/engenheirodevideo/get-brolls.git
-cd get-brolls
+git clone https://github.com/matheussil077-byte/get-brolls.git vedana-brolls
+cd vedana-brolls
 ```
 
 | Agente | Instalação pessoal | Dentro de um projeto | Como chamar |
 |---|---|---|---|
-| Codex | `~/.agents/skills/get-brolls/` | `.agents/skills/get-brolls/` | `$get-brolls` |
-| Claude Code | `~/.claude/skills/get-brolls/` | `.claude/skills/get-brolls/` | `/get-brolls` |
+| Codex | `~/.agents/skills/vedana-brolls/` | `.agents/skills/vedana-brolls/` | `$vedana-brolls` |
+| Claude Code | `~/.claude/skills/vedana-brolls/` | `.claude/skills/vedana-brolls/` | `/vedana-brolls` |
 
 Ao copiar uma pasta de desenvolvimento, exclua `.venv/`, `.tools/`, caches, projetos e arquivos privados. `skills/` e `.claude-plugin/` são artefatos do plugin do Claude Code e podem ser omitidos ao copiar para o Codex. Instale as dependências no destino final e abra uma nova sessão do agente. [Veja instalação, atualização e compatibilidade.](docs/GUIDE.md#instalação)
 ### 2. Prepare o ambiente
@@ -161,15 +160,15 @@ No fim, `verify` responde `"count": 1` e o clipe aprovado está em `/caminho/meu
 
 Se você nunca abriu um terminal, esta é a lista inteira. Todos os passos são conversa com o agente; nada aqui pede comando.
 
-1. **Instale uma vez.** Peça `/get-brolls-setup`. Ele instala tudo e responde em uma linha se está pronto. Repita depois de cada `/plugin update`.
-2. **Diga o que você precisa.** `/get-brolls preciso de vídeos de apoio pro meu Reel sobre X` — e diga também em que pasta o projeto vai ficar.
-3. **Responda à entrevista.** O agente faz no máximo sete perguntas, uma por vez. "Tanto faz" é resposta válida: ele assume um padrão e mostra o que assumiu. Se preferir chamar direto, use `/get-brolls-brief`.
+1. **Instale uma vez.** Peça `/vedana-brolls-setup`. Ele instala tudo e responde em uma linha se está pronto. Repita depois de cada `/plugin update`.
+2. **Diga o que você precisa.** `/vedana-brolls preciso de vídeos de apoio pro meu Reel sobre X` — e diga também em que pasta o projeto vai ficar.
+3. **Responda à entrevista.** O agente faz no máximo sete perguntas, uma por vez. "Tanto faz" é resposta válida: ele assume um padrão e mostra o que assumiu. Se preferir chamar direto, use `/vedana-brolls-brief`.
 4. **Confira o brief.** Ele devolve em cinco linhas o que entendeu e pergunta "fecho assim?". Corrija ali mesmo.
 5. **Olhe a shortlist.** Antes de baixar qualquer coisa, ele lista de 5 a 8 candidatos com título, autor e o trecho exato. Diga quais servem.
-6. **Aprove as prévias.** Ou pelo chat ("aprovei todos", ou nomeando quais), ou pelo Storyboard: peça `/get-brolls-review`, ele te manda um link, você clica em Aprovar / Pedir ajuste / Reprovar e em **Salvar decisões**, e volta para dizer que salvou. Sem essa etapa, nada é baixado.
+6. **Aprove as prévias.** Ou pelo chat ("aprovei todos", ou nomeando quais), ou pelo Storyboard: peça `/vedana-brolls-review`, ele te manda um link, você clica em Aprovar / Pedir ajuste / Reprovar e em **Salvar decisões**, e volta para dizer que salvou. Sem essa etapa, nada é baixado.
 7. **Diga de quem é o material.** O agente registra as condições de uso com o que você informar. Quem responde pelas condições é você; ele só registra o que foi dito e de onde veio cada arquivo.
 8. **Receba.** Os cortes saem em `entrega/`, uma pasta por trecho, com um `ORIGEM.md` dizendo de onde veio cada um.
-9. **Perdeu o fio?** Peça `/get-brolls-status`: ele diz em que pé está e qual é o próximo passo.
+9. **Perdeu o fio?** Peça `/vedana-brolls-status`: ele diz em que pé está e qual é o próximo passo.
 
 ### Comandos
 
@@ -178,17 +177,17 @@ Na ordem de uso, do primeiro contato à entrega:
 **1. Instale o ambiente** (uma vez, na pasta do plugin ou do clone):
 
 ```text
-/get-brolls-setup   # instala as dependências e roda o doctor
+/vedana-brolls-setup   # instala as dependências e roda o doctor
 ```
 
 **2. Chame a skill** com o que você precisa:
 
 ```text
-/get-brolls <seu pedido>   # Claude Code — descreva os inserts e a pasta do projeto
-$get-brolls <seu pedido>   # Codex — mesma coisa
-/get-brolls-brief          # entrevista e escreve o BRIEF.md do vídeo
-/get-brolls-review         # monta o Storyboard, te manda o link e importa as decisões
-/get-brolls-status         # diz em que pé está a coleta e qual é o próximo passo
+/vedana-brolls <seu pedido>   # Claude Code — descreva os inserts e a pasta do projeto
+$vedana-brolls <seu pedido>   # Codex — mesma coisa
+/vedana-brolls-brief          # entrevista e escreve o BRIEF.md do vídeo
+/vedana-brolls-review         # monta o Storyboard, te manda o link e importa as decisões
+/vedana-brolls-status         # diz em que pé está a coleta e qual é o próximo passo
 ```
 
 **3. Confira o ambiente** quando algo não funcionar:
@@ -241,7 +240,7 @@ Cada subcomando aceita `help`; a sintaxe completa está em [Usar pelo terminal](
 - **Registro de origem.** Cada trecho entregue carrega fonte, autor, intervalo e condições de uso — a aprovação editorial é sempre sua.
 - **Rede protegida.** O coletor aceita somente URLs públicas HTTPS sem credenciais, rejeita resolução para redes locais e não segue redirecionamentos.
 - **Nativo em macOS e Windows.** Instaladores próprios para os dois sistemas; os helpers Bash de YouTube são opcionais.
-- **Instalável como plugin do Claude Code.** O próprio repositório é seu marketplace de plugin, com `/get-brolls-setup` configurando a pasta do plugin e uma skill espelhada que resolve caminhos via `${CLAUDE_PLUGIN_ROOT}`. O fluxo clone-como-skill continua idêntico para Codex.
+- **Instalável como plugin do Claude Code.** O próprio repositório é seu marketplace de plugin, com `/vedana-brolls-setup` configurando a pasta do plugin e uma skill espelhada que resolve caminhos via `${CLAUDE_PLUGIN_ROOT}`. O fluxo clone-como-skill continua idêntico para Codex.
 
 ## Storyboard
 
@@ -348,14 +347,14 @@ Execute um comando por projeto de cada vez. Preserve originais, cache e históri
 | [docs/RULES.md](docs/RULES.md) · [.env.example.pt-BR](.env.example.pt-BR) | Regras editoriais e opções de configuração. |
 | [docs/SECURITY.md](docs/SECURITY.md) | Tratamento de dados privados e relato de vulnerabilidades. |
 | `scripts/getbrolls/` | Núcleo único: CLI, provedores, Storyboard, coletor Instagram e utilitários YouTube. |
-| `assets/` | Logo, estilos e scripts usados pelo Storyboard gerado. |
+| `assets/` | Estilos e scripts usados pelo Storyboard gerado. |
 | `agents/` · `schemas/` | Apresentação no agente e contrato de dados. |
 | `tests/` · `.github/workflows/` | Testes e automação de qualidade. |
 
 Para manter o projeto, comece por [CONTRIBUTING](CONTRIBUTING.md) e [AGENTS](AGENTS.md). Consulte [QUALITY](docs/QUALITY.md), [CHANGELOG](CHANGELOG.md) e [SECURITY](docs/SECURITY.md) para evidências, mudanças e tratamento de dados privados.
 
-## Autor
+## Autoria
 
-Criado e mantido por **Bruno Moreira — Engenheiro de Vídeo**.  Instagram: **[@zbrunomoreira](https://www.instagram.com/zbrunomoreira/)**.
+**Vedana B-Rolls** é mantido pela Vedana. É uma derivação do projeto open source Get B-rolls, criado por Bruno Moreira e distribuído sob licença MIT; o aviso de copyright original continua em [LICENSE](LICENSE).
 
 Código sob [licença MIT](LICENSE). Dependências externas mantêm suas próprias condições, descritas nos [avisos de terceiros](THIRD_PARTY_NOTICES.md).

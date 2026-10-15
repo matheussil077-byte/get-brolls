@@ -4,7 +4,7 @@ id: news-ai-act-europeu
 status: current
 created: 2026-09-16
 updated: 2026-09-16
-tags: [get-brolls, eval, blind-tests, noticia]
+tags: [vedana-brolls, eval, blind-tests, noticia]
 ---
 
 # O AI Act no Parlamento Europeu

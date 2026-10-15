@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""GET B-ROLLS CLI. Run from any working directory."""
+"""VEDANA B-ROLLS CLI. Run from any working directory."""
 
 from getbrolls.cli import entrypoint
 

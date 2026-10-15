@@ -1,5 +1,5 @@
 ---
-name: get-brolls
+name: vedana-brolls
 description: 'Coleta, pré-visualiza e entrega B-rolls com revisão humana e origem registrada. Use quando alguém pedir b-roll, vídeos de apoio, imagens de apoio, cutaways, inserts, footage, "um corte do X falando Y", um print da tela de um site ou de uma notícia, ou material para ilustrar um vídeo, Reel ou aula — buscando em YouTube, Instagram, TikTok, Wikimedia Commons, NASA ou bancos (Pexels, Pixabay), gerando prévias para revisão humana e entregando os trechos com origem e condições de uso. Also in English: collect B-roll, cutaways, inserts, supporting footage, stock video, screen grabs. Não serve para editar, montar ou renderizar o vídeo final. Not for editing or rendering the finished video.'
 license: MIT
 metadata:
@@ -13,7 +13,7 @@ metadata:
 
 <!-- Gerado a partir do SKILL.md da raiz (fonte canônica do fluxo clone-como-skill). Ao editar um, sincronize o outro. -->
 
-# GET B-ROLLS — ENGENHEIRO DE VÍDEO
+# VEDANA B-ROLLS
 
 Você planeja fontes literais, mostra o trecho à pessoa, recebe a decisão dela e só então entrega o corte. Fale português direto, sem jargão de CLI, e nunca transforme a conversa num formulário.
 
@@ -27,11 +27,11 @@ Você planeja fontes literais, mostra o trecho à pessoa, recebe a decisão dela
 
 ## Passo 1 — Entreviste antes de buscar
 
-Sem `BRIEF.md` na pasta do projeto, conduza a entrevista de `/get-brolls-brief`. O roteiro está em [`${CLAUDE_PLUGIN_ROOT}/references/interview.md`](${CLAUDE_PLUGIN_ROOT}/references/interview.md): sete perguntas, uma por mensagem, teto de sete — pare assim que 1, 3 e 7 estiverem respondidas. Dois "tanto faz" viram defaults, com o que foi assumido visível na resposta. Nunca invente narração, alvo, link ou responsável.
+Sem `BRIEF.md` na pasta do projeto, conduza a entrevista de `/vedana-brolls-brief`. O roteiro está em [`${CLAUDE_PLUGIN_ROOT}/references/interview.md`](${CLAUDE_PLUGIN_ROOT}/references/interview.md): sete perguntas, uma por mensagem, teto de sete — pare assim que 1, 3 e 7 estiverem respondidas. Dois "tanto faz" viram defaults, com o que foi assumido visível na resposta. Nunca invente narração, alvo, link ou responsável.
 
 ## Passo 2 — Confirme o brief
 
-Rode o CLI pelo **caminho absoluto da instalação da skill**: os exemplos escrevem `${CLAUDE_PLUGIN_ROOT}/scripts/gb.py` por brevidade. `--project` é sempre a pasta do usuário, também absoluta, e vai em **todo** comando.
+Rode o CLI pelo **caminho absoluto da instalação da skill**: os exemplos escrevem `${CLAUDE_PLUGIN_ROOT}/scripts/gb.py` por brevidade. `--project` é sempre a pasta do usuário, também absoluta, e vai em **todo** comando. No Windows, use `python` no lugar de `python3` em todos os exemplos.
 
 Escreva o `BRIEF.md` com `python3 "${CLAUDE_PLUGIN_ROOT}/scripts/gb.py" init-brief --project <projeto>`, preencha o bloco JSON e valide com `brief --validate`. Se a pessoa nomeou a plataforma (Reel, Shorts, horizontal), alinhe o `video_format` do RULES.md antes de validar: `init-rules --format reels --force --project <projeto>`.
 
@@ -77,7 +77,7 @@ Diga o que tentou e o motivo real. Pergunte se a pessoa tem material próprio ou
 
 ## Ambiente
 
-`python3 "${CLAUDE_PLUGIN_ROOT}/scripts/gb.py" doctor` diz o que está pronto e o que falta. No Windows, use `python` no lugar de `python3`. Faltando algo, peça `/get-brolls-setup`. Versão diferente da deste arquivo: leia o [CHANGELOG](${CLAUDE_PLUGIN_ROOT}/CHANGELOG.md).
+`python3 "${CLAUDE_PLUGIN_ROOT}/scripts/gb.py" doctor` diz o que está pronto e o que falta. Faltando algo, peça `/vedana-brolls-setup`. Versão diferente da deste arquivo: leia o [CHANGELOG](${CLAUDE_PLUGIN_ROOT}/CHANGELOG.md).
 
 ## Índice de references
 

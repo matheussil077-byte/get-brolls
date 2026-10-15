@@ -1,19 +1,19 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
-  "name": "engenheirodevideo",
+  "name": "vedana",
+  "description": "Vedana: plugins de produção de vídeo para o Claude Code.",
   "owner": {
-    "name": "Bruno Moreira — Engenheiro de Vídeo"
+    "name": "Vedana"
   },
   "plugins": [
     {
-      "name": "get-brolls",
+      "name": "vedana-brolls",
       "source": "./",
       "version": "2.5.0",
       "author": {
-        "name": "Bruno Moreira — Engenheiro de Vídeo",
-        "url": "https://www.instagram.com/zbrunomoreira/"
+        "name": "Vedana"
       },
-      "description": "B-roll planning and sourcing from YouTube, Instagram, TikTok and stock providers, with Storyboard human review and licensed delivery with provenance."
+      "description": "Vedana B-Rolls: B-roll planning and sourcing from YouTube, Instagram, TikTok and stock providers, with Storyboard human review and licensed delivery with provenance."
     }
   ]
 }

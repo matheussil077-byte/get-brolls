@@ -3,7 +3,7 @@ type: reference
 status: current
 created: 2026-09-17
 updated: 2026-09-17
-tags: [get-brolls, direitos, permit, licenca]
+tags: [vedana-brolls, direitos, permit, licenca]
 ---
 
 # Condições de uso — o que registrar antes de coletar

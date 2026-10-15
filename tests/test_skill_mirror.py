@@ -1,7 +1,7 @@
 """Raiz e espelho do SKILL.md são o mesmo texto.
 
 Desde a 2.4 o SKILL.md não tem seção de instalação, então a única divergência
-legítima entre `SKILL.md` e `skills/get-brolls/SKILL.md` é o prefixo
+legítima entre `SKILL.md` e `skills/vedana-brolls/SKILL.md` é o prefixo
 `${CLAUDE_PLUGIN_ROOT}/` nos caminhos citados pelo plugin — e o comentário HTML
 de sincronia, que diz de qual lado o arquivo está. A sincronia em si é gerada
 por `scripts/gen_skill_mirror.py --check`; esta suíte assere o contrato do
@@ -23,14 +23,14 @@ from _paths import ROOT
 from getbrolls import __version__
 
 ROOT_SKILL = ROOT / "SKILL.md"
-MIRROR_SKILL = ROOT / "skills" / "get-brolls" / "SKILL.md"
+MIRROR_SKILL = ROOT / "skills" / "vedana-brolls" / "SKILL.md"
 GEN_SKILL_MIRROR = ROOT / "scripts" / "gen_skill_mirror.py"
 
 MAX_WORDS = 900
 MAX_WORDS_PER_PARAGRAPH = 80
 
 # Comandos de instalação não têm lugar no SKILL.md: quem instala é
-# `/get-brolls-setup`, e o arquivo mais lido não gasta linha com isso.
+# `/vedana-brolls-setup`, e o arquivo mais lido não gasta linha com isso.
 INSTALL_MARKERS = (
     "install.sh",
     "install.ps1",
@@ -82,7 +82,7 @@ class SkillMirrorTests(unittest.TestCase):
     def test_editing_the_mirror_by_hand_makes_check_exit_1(self):
         """`--check` detecta divergência: aponta o gerador para uma cópia
         editada à mão do espelho, fora do repositório, e nunca escreve no
-        `skills/get-brolls/SKILL.md` versionado."""
+        `skills/vedana-brolls/SKILL.md` versionado."""
         import gen_skill_mirror
 
         with tempfile.TemporaryDirectory() as tmp:
@@ -202,7 +202,7 @@ class SkillBudgetTests(unittest.TestCase):
                 self.assertNotIn(
                     marker,
                     text,
-                    f"{path.name} traz comando de instalação ({marker}); isso é do /get-brolls-setup",
+                    f"{path.name} traz comando de instalação ({marker}); isso é do /vedana-brolls-setup",
                 )
 
     def test_the_three_guards_are_present(self):

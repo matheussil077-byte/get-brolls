@@ -6,7 +6,7 @@ import os
 import uuid
 from pathlib import Path
 
-from .models import id_stem, now
+from .models import id_stem, now, replace_file
 
 
 def digest(path):
@@ -25,7 +25,7 @@ def atomic_write(path, text):
             f.write(text)
             f.flush()
             os.fsync(f.fileno())
-        temp.replace(path)
+        replace_file(temp, path)
     finally:
         temp.unlink(missing_ok=True)
 

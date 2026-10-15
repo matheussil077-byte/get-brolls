@@ -4,7 +4,7 @@ id: news-eclipse-solar-2024
 status: current
 created: 2026-09-16
 updated: 2026-09-16
-tags: [get-brolls, eval, blind-tests, noticia]
+tags: [vedana-brolls, eval, blind-tests, noticia]
 ---
 
 # Eclipse solar total de 2024

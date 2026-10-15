@@ -3,7 +3,7 @@ type: documentation
 status: current
 created: 2026-09-15
 updated: 2026-09-16
-tags: [get-brolls]
+tags: [vedana-brolls]
 ---
 
 # Segurança e privacidade

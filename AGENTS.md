@@ -3,10 +3,10 @@ type: instructions
 status: current
 created: 2026-09-15
 updated: 2026-09-17
-tags: [get-brolls, documentation]
+tags: [vedana-brolls, documentation]
 ---
 
-# Instruções para agentes — Get B-rolls
+# Instruções para agentes — Vedana B-Rolls
 
 ## Mapa do repositório
 
@@ -14,15 +14,15 @@ Este arquivo é o índice central para agentes e mantenedores: tudo que um agent
 
 | Preciso de | Destino |
 |---|---|
-| Operar a skill (coletar, prever, revisar, entregar) | [SKILL.md](SKILL.md) — contrato de operação e fonte canônica; no plugin do Claude Code a skill descoberta é o espelho [skills/get-brolls/SKILL.md](skills/get-brolls/SKILL.md). |
-| Instalar no Codex | Clone o repositório, apresente-o pelo [agents/openai.yaml](agents/openai.yaml) e acione com `$get-brolls`. |
-| Instalar no Claude Code como skill | Clone o repositório na pasta de skills do agente e acione com `/get-brolls`. |
-| Instalar no Claude Code como plugin | `/plugin marketplace add engenheirodevideo/get-brolls`, acione com `/get-brolls:get-brolls` e prepare o ambiente com [`/get-brolls-setup`](commands/get-brolls-setup.md). |
+| Operar a skill (coletar, prever, revisar, entregar) | [SKILL.md](SKILL.md) — contrato de operação e fonte canônica; no plugin do Claude Code a skill descoberta é o espelho [skills/vedana-brolls/SKILL.md](skills/vedana-brolls/SKILL.md). |
+| Instalar no Codex | Clone o repositório, apresente-o pelo [agents/openai.yaml](agents/openai.yaml) e acione com `$vedana-brolls`. |
+| Instalar no Claude Code como skill | Clone o repositório na pasta de skills do agente e acione com `/vedana-brolls`. |
+| Instalar no Claude Code como plugin | `/plugin marketplace add matheussil077-byte/get-brolls`, acione com `/vedana-brolls:vedana-brolls` e prepare o ambiente com [`/vedana-brolls-setup`](commands/vedana-brolls-setup.md). |
 | Instalar no Gemini CLI | [GEMINI.md](GEMINI.md) — o snippet de importação `@` que o usuário acrescenta ao próprio `GEMINI.md`. |
 | Guia operacional (instalação, provedores, navegador, Storyboard, `status`) | [GUIDE.md](docs/GUIDE.md) |
 | Manual + tutorial para quem está chegando (comandos explicados, JSON de saída, automação) | [MANUAL.md](docs/MANUAL.md) |
 | Qualidade, evidências reais e limites conhecidos | [QUALITY.md](docs/QUALITY.md) |
-| Medir qualidade editorial (blind tests) | [eval/README.md](eval/README.md) — processo, rubrica, corpus e rodadas; execute um caso com [`/get-brolls-eval`](commands/get-brolls-eval.md). |
+| Medir qualidade editorial (blind tests) | [eval/README.md](eval/README.md) — processo, rubrica, corpus e rodadas; execute um caso com [`/vedana-brolls-eval`](commands/vedana-brolls-eval.md). |
 | Contribuir (fluxo de mudança, revisão, PR) | [CONTRIBUTING.md](CONTRIBUTING.md) |
 | Segurança, egress e dados privados | [SECURITY.md](docs/SECURITY.md) |
 | O que mudou em cada versão | [CHANGELOG.md](CHANGELOG.md) |
@@ -33,7 +33,7 @@ Os roteadores por agente ([CLAUDE.md](CLAUDE.md) e [GEMINI.md](GEMINI.md)) apont
 
 ## Escopo e entrada
 
-Esta pasta contém o produto **GET B-ROLLS — ENGENHEIRO DE VÍDEO**: skill, CLI, utilitários, interface de revisão e documentação. Leia [SKILL](SKILL.md) para executar uma coleta e [GUIDE](docs/GUIDE.md#instalação) para preparar o ambiente. Nenhum outro repositório é necessário.
+Esta pasta contém o produto **VEDANA B-ROLLS**: skill, CLI, utilitários, interface de revisão e documentação. Leia [SKILL](SKILL.md) para executar uma coleta e [GUIDE](docs/GUIDE.md#instalação) para preparar o ambiente. Nenhum outro repositório é necessário.
 
 Use a pasta da skill como base para scripts e um `--project` explícito para a coleta. Fora desta pasta, execute o CLI pelo caminho absoluto. Não grave projetos/mídias dentro da fonte da skill. Mantenha esta entrega isolada de outras instalações do autor.
 
@@ -59,7 +59,7 @@ Execute comandos do mesmo projeto serialmente. Preserve originais, eventos e jou
 
 ## Manutenção
 
-- A versão executável vem de `scripts/getbrolls/__init__.py`. Mudança de versão é feita com `python3 scripts/bump_version.py X.Y.Z [--date AAAA-MM-DD]`, que escreve numa passada só `scripts/getbrolls/__init__.py`, `package.json`, `package-lock.json`, `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`, `SKILL.md`, README, README.en, `docs/QUALITY.md` e o stub do CHANGELOG; `--check` só confere e sai 1 se algo divergir, sem escrever. `SKILL.md` da raiz é a fonte canônica; o espelho em `skills/get-brolls/SKILL.md` é **gerado**, nunca editado à mão — `python3 scripts/gen_skill_mirror.py` escreve o espelho (`--check` compara e sai 1 se divergir) e é esse gerador, não sincronia manual, que mantém `description` idêntica e o mesmo conteúdo com caminhos `${CLAUDE_PLUGIN_ROOT}`; CI e `scripts/check.sh`/`check.ps1` rodam o `--check` dos dois. Revisão documental sem alteração de versão deve aparecer no changelog vigente.
+- A versão executável vem de `scripts/getbrolls/__init__.py`. Mudança de versão é feita com `python3 scripts/bump_version.py X.Y.Z [--date AAAA-MM-DD]`, que escreve numa passada só `scripts/getbrolls/__init__.py`, `package.json`, `package-lock.json`, `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`, `SKILL.md`, README, README.en, `docs/QUALITY.md` e o stub do CHANGELOG; `--check` só confere e sai 1 se algo divergir, sem escrever. `SKILL.md` da raiz é a fonte canônica; o espelho em `skills/vedana-brolls/SKILL.md` é **gerado**, nunca editado à mão — `python3 scripts/gen_skill_mirror.py` escreve o espelho (`--check` compara e sai 1 se divergir) e é esse gerador, não sincronia manual, que mantém `description` idêntica e o mesmo conteúdo com caminhos `${CLAUDE_PLUGIN_ROOT}`; CI e `scripts/check.sh`/`check.ps1` rodam o `--check` dos dois. Revisão documental sem alteração de versão deve aparecer no changelog vigente.
 - **`main` é produção.** O plugin instalado por quem usa a skill acompanha `main`, e cada release baixada pelos usuários sai de um commit dessa branch: mudança de comportamento chega por PR com CI verde nos três sistemas operacionais, `bash scripts/preflight.sh` roda antes de qualquer `git tag`, não há push direto em `main`, e mudança de comportamento observável exige entrada no CHANGELOG e compatibilidade retroativa.
 - Atualize a seção correspondente de `docs/GUIDE.md` junto com o código da rota afetada. O guia é a referência operacional única do produto.
 - Corrija a causa e adicione regressão quando houver bug. Não escreva testes que exijam retirar uma capacidade existente.

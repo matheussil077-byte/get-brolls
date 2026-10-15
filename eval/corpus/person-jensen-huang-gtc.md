@@ -4,7 +4,7 @@ id: person-jensen-huang-gtc
 status: current
 created: 2026-09-16
 updated: 2026-09-16
-tags: [get-brolls, eval, blind-tests, pessoa-publica, evento]
+tags: [vedana-brolls, eval, blind-tests, pessoa-publica, evento]
 ---
 
 # Jensen Huang no palco da GTC

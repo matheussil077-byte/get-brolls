@@ -4,7 +4,7 @@ id: person-satya-nadella-build
 status: current
 created: 2026-09-16
 updated: 2026-09-16
-tags: [get-brolls, eval, blind-tests, pessoa-publica, evento]
+tags: [vedana-brolls, eval, blind-tests, pessoa-publica, evento]
 ---
 
 # Satya Nadella abrindo o Microsoft Build

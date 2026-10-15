@@ -4,7 +4,7 @@ id: news-cop30-belem
 status: current
 created: 2026-09-16
 updated: 2026-09-16
-tags: [get-brolls, eval, blind-tests, noticia, brasil]
+tags: [vedana-brolls, eval, blind-tests, noticia, brasil]
 ---
 
 # COP30 em Belém

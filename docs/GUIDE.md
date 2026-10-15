@@ -3,12 +3,12 @@ type: documentation
 status: current
 created: 2026-09-15
 updated: 2026-09-17
-tags: [get-brolls, guide, installation, providers, storyboard]
+tags: [vedana-brolls, guide, installation, providers, storyboard]
 ---
 
-# Guia completo — Get B-rolls
+# Guia completo — Vedana B-Rolls
 
-Este é o manual operacional único do **GET B-ROLLS — ENGENHEIRO DE VÍDEO**: instalação, compatibilidade, fluxo editorial, provedores, navegador, Instagram, tipos de asset e Storyboard.
+Este é o manual operacional único do **VEDANA B-ROLLS**: instalação, compatibilidade, fluxo editorial, provedores, navegador, Instagram, tipos de asset e Storyboard.
 
 ## Navegação rápida
 
@@ -50,7 +50,7 @@ Instale Python, FFmpeg, curl e Node pelo gerenciador de pacotes do sistema. Em m
 brew install python ffmpeg node
 ```
 
-Dentro da pasta da skill `get-brolls/`:
+Dentro da pasta da skill `vedana-brolls/`:
 
 ```sh
 bash scripts/install.sh --check
@@ -66,7 +66,7 @@ python scripts/gb.py doctor
 
 ### Windows
 
-Instale Python 3.11+, FFmpeg e Node 22+ pelos instaladores oficiais ou pelo gerenciador de pacotes da sua preferência. Durante a instalação, habilite o `PATH`. Abra PowerShell na pasta `get-brolls/` e execute:
+Instale Python 3.11+, FFmpeg e Node 22+ pelos instaladores oficiais ou pelo gerenciador de pacotes da sua preferência. Durante a instalação, habilite o `PATH`. Abra PowerShell na pasta `vedana-brolls/` e execute:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File scripts/install.ps1 -Check
@@ -74,7 +74,17 @@ powershell -ExecutionPolicy Bypass -File scripts/install.ps1
 python scripts/gb.py doctor
 ```
 
-O instalador usa `.venv\Scripts\python.exe` e o launcher `.cmd` do Playwright; não exige Git Bash nem WSL. Se a política local já permite scripts, também é possível executar `& .\scripts\install.ps1`. Os helpers `.sh` de YouTube são opcionais; no Windows, use `search`, `preview`, `fetch` e `verify` pela CLI principal.
+O instalador usa `.venv\Scripts\python.exe` e roda o Playwright CLI fixado com `node.exe` direto (sem o atalho `.cmd`, que pelo `cmd.exe` cortava URLs com `&`); não exige Git Bash nem WSL. Se a política local já permite scripts, também é possível executar `& .\scripts\install.ps1`.
+
+Notas do Windows:
+
+- **`python3` não é Python.** Na maioria das máquinas, `python3` resolve para o atalho da Microsoft Store em `WindowsApps`, que só imprime um aviso. Use `python`; o `install.ps1` testa cada candidato de verdade e, sem `python` no `PATH`, cai no launcher `py` (3.13 → 3.11). Os comandos prontos que a CLI devolve (`do.command`, `brief --beat`) já saem com `python` no Windows.
+- **`install.sh` no Git Bash recusa rodar** e mostra o comando `install.ps1` equivalente.
+- **Política de execução.** Os exemplos `& .\scripts\playwright.ps1 …` deste guia exigem que a política permita scripts locais. Se o PowerShell recusar, troque `&` por `powershell -ExecutionPolicy Bypass -File` (vale só para aquele comando).
+- **`PATH` novo pede sessão nova.** Programa instalado pelo winget (FFmpeg, Node) só aparece numa sessão nova do terminal ou do Claude Code; até lá, fixe o caminho com `GB_FFMPEG_PATH`/`GB_FFPROBE_PATH`.
+- **`.env` com BOM.** O Bloco de Notas e o PowerShell 5.1 gravam UTF-8 com BOM; a CLI aceita esse `.env` e o JSON de decisões regravado assim.
+
+Os helpers `.sh` de YouTube são opcionais; no Windows, use `search`, `preview`, `fetch` e `verify` pela CLI principal.
 
 Linux continua compatível como plataforma secundária. Em Ubuntu/Debian, instale `python3`, `python3-venv`, `ffmpeg` e `curl`, além de Node 22+, e use `scripts/install.sh` como no macOS.
 
@@ -145,12 +155,12 @@ GB_FFMPEG_PATH=/opt/homebrew/bin/ffmpeg python3 scripts/gb.py doctor
 
 ### Codex e Claude Code
 
-Use o repositório oficial [engenheirodevideo/get-brolls](https://github.com/engenheirodevideo/get-brolls): `git clone https://github.com/engenheirodevideo/get-brolls.git`. Clone ou copie a pasta completa da skill para **um** dos destinos abaixo. Escolha instalação pessoal ou por projeto para evitar duplicatas com o mesmo nome. Exclua `.venv/`, `.tools/`, `__pycache__/`, projetos e arquivos privados ao copiar uma árvore de desenvolvimento. Execute o instalador no destino final; não mova uma venv entre pastas:
+Use o repositório oficial [matheussil077-byte/get-brolls](https://github.com/matheussil077-byte/get-brolls): `git clone https://github.com/matheussil077-byte/get-brolls.git vedana-brolls`. Clone ou copie a pasta completa da skill para **um** dos destinos abaixo. Escolha instalação pessoal ou por projeto para evitar duplicatas com o mesmo nome. Exclua `.venv/`, `.tools/`, `__pycache__/`, projetos e arquivos privados ao copiar uma árvore de desenvolvimento. Execute o instalador no destino final; não mova uma venv entre pastas:
 
 | Agente | Pessoal | Projeto | Invocação |
 |---|---|---|---|
-| Codex | `~/.agents/skills/get-brolls/` | `.agents/skills/get-brolls/` | `$get-brolls` |
-| Claude Code | `~/.claude/skills/get-brolls/` | `.claude/skills/get-brolls/` | `/get-brolls` |
+| Codex | `~/.agents/skills/vedana-brolls/` | `.agents/skills/vedana-brolls/` | `$vedana-brolls` |
+| Claude Code | `~/.claude/skills/vedana-brolls/` | `.claude/skills/vedana-brolls/` | `/vedana-brolls` |
 
 Preserve cópias anteriores antes de substituir. Abra nova sessão para verificar descoberta. Use caminhos absolutos quando executar de outra pasta:
 
@@ -197,13 +207,13 @@ Codex e Claude Code usam a mesma pasta, com destinos e invocações descritos em
 A partir da 2.3.6, o repositório também é um marketplace de plugin do Claude Code (`.claude-plugin/plugin.json` e `.claude-plugin/marketplace.json`). A instalação usa dois comandos na sessão do Claude Code:
 
 ```text
-/plugin marketplace add engenheirodevideo/get-brolls
-/plugin install get-brolls@engenheirodevideo
+/plugin marketplace add matheussil077-byte/get-brolls
+/plugin install vedana-brolls@vedana
 ```
 
-Na primeira sessão, execute `/get-brolls-setup`: o comando em `commands/get-brolls-setup.md` roda `scripts/install.sh --check`, o instalador completo do sistema e o `doctor` pela raiz do plugin, e devolve o veredito em uma linha. A skill é acionada pelo contexto do pedido; a forma explícita é `/get-brolls:get-brolls`.
+Na primeira sessão, execute `/vedana-brolls-setup`: o comando em `commands/vedana-brolls-setup.md` roda `scripts/install.sh --check`, o instalador completo do sistema e o `doctor` pela raiz do plugin, e devolve o veredito em uma linha. A skill é acionada pelo contexto do pedido; a forma explícita é `/vedana-brolls:vedana-brolls`.
 
-A skill do plugin fica em `skills/get-brolls/SKILL.md` e referencia os arquivos por `${CLAUDE_PLUGIN_ROOT}`, a raiz do plugin instalado — um diretório de cache versionado (`~/.claude/plugins/cache/engenheirodevideo/get-brolls/<versão>/`). Execute o instalador e o `doctor` pelo caminho absoluto dessa pasta, de qualquer cwd. As dependências ficam em `.venv/` e `.tools/` dentro da pasta do plugin: repita o instalador após cada `/plugin update` ou reinstalação, e prefira variáveis de ambiente ou um `.env` fora da pasta gerenciada para as chaves opcionais, apontado na raiz do parser: `python3 "${CLAUDE_PLUGIN_ROOT}/scripts/gb.py" --env-file CAMINHO <subcomando> …`. O fluxo clone-como-skill continua suportado sem mudanças para Codex e instalações manuais, com o SKILL.md da raiz como fonte canônica.
+A skill do plugin fica em `skills/vedana-brolls/SKILL.md` e referencia os arquivos por `${CLAUDE_PLUGIN_ROOT}`, a raiz do plugin instalado — um diretório de cache versionado (`~/.claude/plugins/cache/vedana/vedana-brolls/<versão>/`). Execute o instalador e o `doctor` pelo caminho absoluto dessa pasta, de qualquer cwd. As dependências ficam em `.venv/` e `.tools/` dentro da pasta do plugin: repita o instalador após cada `/plugin update` ou reinstalação, e prefira variáveis de ambiente ou um `.env` fora da pasta gerenciada para as chaves opcionais, apontado na raiz do parser: `python3 "${CLAUDE_PLUGIN_ROOT}/scripts/gb.py" --env-file CAMINHO <subcomando> …`. O fluxo clone-como-skill continua suportado sem mudanças para Codex e instalações manuais, com o SKILL.md da raiz como fonte canônica.
 
 #### Permissões (opcional)
 
@@ -256,11 +266,11 @@ Coleta B-roll dirigida pelo contrato de edição. Confirma no navegador antes de
 Motor: `yt-dlp` + FFmpeg pela CLI (`scripts/gb.py`). Capturas de página usam a integração de navegador autorizada ou o launcher Playwright do sistema. Os helpers `.sh` que existiam antes da CLI unificada continuam disponíveis só como utilitários avulsos — ver [Apêndice — utilitários legados](#apêndice--utilitários-legados).
 
 ### Saída
-`<PROJETO>/brolls/NN_entity_context.mp4`. Registrar no ledger (`step: get-brolls`, outputs = arquivos baixados).
+`<PROJETO>/brolls/NN_entity_context.mp4`. Registrar no ledger (`step: vedana-brolls`, outputs = arquivos baixados).
 
 ### Medição editorial deste fluxo
 
-Se a pergunta é "esse fluxo está achando fonte literal de verdade?", a resposta não vem da suíte de testes: vem dos **testes cegos** em [eval/README.md](../eval/README.md). Um agente executor recebe só o roteiro, roda `search` → `preview` → `review` e para na revisão humana; outro agente (ou o humano) pontua cada beat pela rubrica — alcance literal, literalidade do asset, qualidade da prévia e disciplina (nada de stock sem pedido, nada aprovado sozinho). Os relatórios ficam em `eval/runs/`, e o comando `/get-brolls-eval` roda um caso do corpus de ponta a ponta.
+Se a pergunta é "esse fluxo está achando fonte literal de verdade?", a resposta não vem da suíte de testes: vem dos **testes cegos** em [eval/README.md](../eval/README.md). Um agente executor recebe só o roteiro, roda `search` → `preview` → `review` e para na revisão humana; outro agente (ou o humano) pontua cada beat pela rubrica — alcance literal, literalidade do asset, qualidade da prévia e disciplina (nada de stock sem pedido, nada aprovado sozinho). Os relatórios ficam em `eval/runs/`, e o comando `/vedana-brolls-eval` roda um caso do corpus de ponta a ponta.
 
 ## Estado do projeto e progresso
 
@@ -638,7 +648,7 @@ Em 15/09/2026, a sessão Chrome indicada pelo usuário abriu o Reel `DcMXl1IPNtB
 
 ## Instagram — recuperação e auditoria
 
-Baixar e organizar Reels no fluxo Get B-rolls: capturar URLs diretas de CDN como pares `*_video.conf` + `*_audio.conf`, baixar as partes separadas, mesclar com `ffmpeg` e validar que o MP4 final tem vídeo e áudio corretos.
+Baixar e organizar Reels no fluxo Vedana B-Rolls: capturar URLs diretas de CDN como pares `*_video.conf` + `*_audio.conf`, baixar as partes separadas, mesclar com `ffmpeg` e validar que o MP4 final tem vídeo e áudio corretos.
 
 ### Quando usar
 

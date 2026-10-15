@@ -631,7 +631,7 @@ def _tail(output: str, lines: int = 20) -> str:
     return f"\n\nÚltimas linhas do log:\n{text}" if text else ""
 
 
-def start_background(project, port: int = DEFAULT_PORT):  # noqa: C901 - existing size; spawns, waits for and validates the detached server across platforms
+def start_background(project, port: int = DEFAULT_PORT):
     """Sobe o servidor num processo solto e devolve as URLs quando ele já responde.
 
     Um subprocesso (nunca `fork`) mantém o mesmo comportamento no Windows: o filho
@@ -662,21 +662,14 @@ def start_background(project, port: int = DEFAULT_PORT):  # noqa: C901 - existin
     # O filho precisa achar `getbrolls` e falar UTF-8 mesmo num console legado:
     # nada disso pode depender do diretório de trabalho ou do locale da máquina.
     environment = _child_environment(os.environ, scripts)
-    extra = {}
-    if os.name == "nt":
-        # DETACHED_PROCESS | CREATE_NEW_PROCESS_GROUP: o servidor sobrevive ao console.
-        extra["creationflags"] = 0x00000008 | 0x00000200
-    else:
-        extra["start_new_session"] = True
     with log.open("ab") as stream:
-        process = subprocess.Popen(
+        process = _spawn_detached(
             command,
             stdout=stream,
             stderr=stream,
             stdin=subprocess.DEVNULL,
             cwd=str(directory),
             env=environment,
-            **extra,
         )
     payload = None
     # Máquina de CI fria gasta segundos só para subir o interpretador; a espera é
@@ -701,7 +694,7 @@ def start_background(project, port: int = DEFAULT_PORT):  # noqa: C901 - existin
             break
         time.sleep(0.05)
     if not payload:
-        process.terminate()
+        _kill_tree(process)
         raise ValueError(
             "O servidor do Storyboard não respondeu a tempo. Rode `serve` sem "
             f"`--background` para ver o que aconteceu (saída em {log})."
@@ -718,6 +711,35 @@ def start_background(project, port: int = DEFAULT_PORT):  # noqa: C901 - existin
     }
     _write_private_text(directory / PID_FILE, json.dumps(record, ensure_ascii=False))
     return {"background": True, "already_running": False, "log": str(log), **record}
+
+
+# DETACHED_PROCESS | CREATE_NEW_PROCESS_GROUP: o servidor sobrevive ao console.
+WINDOWS_DETACHED_FLAGS = 0x00000008 | 0x00000200
+# CREATE_BREAKAWAY_FROM_JOB: sai do job object de quem chamou (um terminal ou agente
+# que encerra o job ao fim do comando levaria o servidor junto). Job sem permissão de
+# breakaway recusa a criação com erro; aí o servidor sobe como antes, sem a flag.
+WINDOWS_BREAKAWAY_FLAG = 0x01000000
+
+
+def _spawn_detached(command, **kwargs):
+    if os.name != "nt":
+        return subprocess.Popen(command, start_new_session=True, **kwargs)
+    try:
+        return subprocess.Popen(command, creationflags=WINDOWS_DETACHED_FLAGS | WINDOWS_BREAKAWAY_FLAG, **kwargs)
+    except OSError:
+        return subprocess.Popen(command, creationflags=WINDOWS_DETACHED_FLAGS, **kwargs)
+
+
+def _kill_tree(process):
+    """Encerra o servidor que não respondeu; no Windows, também o python real sob o launcher da venv."""
+    if os.name == "nt":
+        subprocess.run(
+            ["taskkill", "/PID", str(process.pid), "/T", "/F"],
+            capture_output=True,
+            check=False,
+        )
+    with contextlib.suppress(OSError):
+        process.terminate()
 
 
 def stop(project):

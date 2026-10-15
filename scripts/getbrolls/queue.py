@@ -15,6 +15,7 @@ from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 from . import logs
+from .models import replace_file
 
 log = logs.get("queue")
 
@@ -144,7 +145,7 @@ def load(path):
     if version != SCHEMA_VERSION:
         if isinstance(version, int) and version > SCHEMA_VERSION:
             raise ValueError(
-                f"queue.json em {path} foi gravado por uma versão mais nova do get-brolls "
+                f"queue.json em {path} foi gravado por uma versão mais nova do vedana-brolls "
                 f"(schema {version}, esperado {SCHEMA_VERSION}); atualize antes de continuar."
             )
         raise ValueError(f"queue.json incompatível em {path} (schema_version esperado {SCHEMA_VERSION}).")
@@ -165,7 +166,7 @@ def save(path, data):
             stream.flush()
             os.fsync(stream.fileno())
         Path(temp).chmod(0o600)
-        Path(temp).replace(path)
+        replace_file(temp, path)
     finally:
         Path(temp).unlink(missing_ok=True)
 
